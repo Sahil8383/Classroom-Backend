@@ -10,7 +10,9 @@ const {
 const { 
     CreateClass, 
     AddSubject, 
-    GetClass 
+    GetClass, 
+    GetSingleClass,
+    AddChapter,
 } = require('../controllers/ClassController');
 
 // User Routes
@@ -22,5 +24,8 @@ router.post('/login', LoginIn);
 router.post('/createClass',CreateClass);
 router.patch('/updateClass/:id', AddSubject)
 router.get('/getClasses', GetClass)
+router.get('/getSingleClass/:classId/:subId', GetSingleClass)
+router.patch('/updateClass/:classId/:subId', AddChapter)
+
 
 module.exports = router;

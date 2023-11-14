@@ -120,8 +120,88 @@ const AddSubject = async (req, res) => {
 
 }
 
+
+const AddChapter = async (req, res) => {
+
+    const classId = req.params.classId;
+    const subId = req.params.subId;
+
+    try {
+        
+        const {
+            chapterName,
+            topics,
+        } = req.body;
+
+        const newClass = await Class.findById(classId);
+        const singleSubject = newClass.subjects.id(subId);
+
+        const allTopics = [];
+
+        topics.forEach(topic => {
+            allTopics.push({
+                topicName: topic.topicName,
+                theory: topic.theory,
+                videos: topic.videos,
+                questions: topic.questions
+            });
+        });
+
+        singleSubject.chapters.push({
+            chapterName,
+            topics: allTopics
+        });
+
+        await newClass.save();
+
+        res.status(200).json({
+            message: 'Chapter added successfully',
+            newClass
+        });
+
+    } catch (error) {
+        
+        res.status(500).json({
+            message: 'Error in adding chapter',
+            error
+        });
+
+    }
+
+}
+
+
+const GetSingleClass = async (req, res) => {
+
+    const classId = req.params.classId;
+    const subId = req.params.subId;
+
+    try {
+        
+        const singleClass = await Class.findById(classId);
+        const singleSubject = singleClass.subjects.id(subId);
+
+        res.status(200).json({
+            singleSubject
+        });
+
+    } catch (error) {
+        
+        res.status(500).json({
+            message: 'Error in getting single subject',
+            error
+        });
+
+    }
+
+}
+
+
+
 module.exports = {
     CreateClass,
     AddSubject,
-    GetClass    
+    GetClass   ,
+    GetSingleClass,
+    AddChapter
 }
