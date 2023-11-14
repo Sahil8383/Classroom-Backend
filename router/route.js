@@ -7,9 +7,20 @@ const {
     authMiddleware,
 } = require('../controllers/UserController');
 
+const { 
+    CreateClass, 
+    AddSubject, 
+    GetClass 
+} = require('../controllers/ClassController');
+
 // User Routes
 
 router.post('/signup', SignUp);
 router.post('/login', LoginIn);
+
+// Class Routes
+router.post('/createClass',CreateClass);
+router.patch('/updateClass/:id', AddSubject)
+router.get('/getClasses', GetClass)
 
 module.exports = router;
